@@ -44,35 +44,21 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         return result
     }
     func getPlace() {
-//        let client_id = "&client_id=\(SecretID.clientId)"
-//        let client_secret = "&client_secret=\(SecretID.clientSecret)"
-//        let date = currentDate()
-//        let v = "&v=\(date)"
-//        let jsonUrl = "https://api.foursquare.com/v2/venues/explore?near=cnx\(client_id)\(client_secret)\(v)"
-//        guard let url = URL(string: jsonUrl) else {return}
-        
-        let jsonUrl = "https://api.letsbuildthatapp.com/jsondecodable/courses"
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYYMMDD"
+        let result = formatter.string(from: date)
+        let client_id = "DSSIAPPQ4LSR40XNXZXJQNHGU0NSNFC5YEJYKIHJTSY0QX2E"
+        let client_secret = "PL3ICK2DMR4OXDQ1T5ODZ4R255SA00B3TDUQRJUK4ICZL5CX"
+               
+        let jsonUrl = "https://api.foursquare.com/v2/venues/explore?near=cnx&client_id=\(client_id)&client_secret=\(client_secret)&v=\(result)"
         guard let url = URL(string: jsonUrl) else {return}
         
         URLSession.shared.dataTask(with: url) { (data, response, err) in
-//            print("ddsdadasd")
             guard let data = data else {return}
-            
-            let dataAsString = String(data: data, encoding: .utf8)
-//            print(dataAsString)
-//            do {
-//                guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any] else {return}
-//                print(json)
-//                let courses = Course(json: json)
-//                print(courses.name)
-//            } catch let jsonErr {
-//                print("err", jsonErr)
-//            }
-            
-//
             do {
-                let result = try JSONDecoder().decode(Course.self, from: data)
-                print(result.name)
+                let result = try JSONDecoder().decode(responseInfo.self, from: data)
+                print(result.response)
             } catch {
               print("show sth",err)
             }
