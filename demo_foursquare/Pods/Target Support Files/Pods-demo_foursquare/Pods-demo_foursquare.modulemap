@@ -1,0 +1,6 @@
+framework module Pods_demo_foursquare {
+  umbrella header "Pods-demo_foursquare-umbrella.h"
+
+  export *
+  module * { export * }
+}
