@@ -27,3 +27,4 @@ class foursquareApi {
         guard let url = URL(string: jsonUrl) else {return}
 
 }
+}
