@@ -13,9 +13,7 @@ import AlamofireObjectMapper
 
 class foursquareApi {
     
-  static func getPlace (
-        success: @escaping (_ brandDTO: [responseInfo]) -> (),
-        error: @escaping (_ errorDTO: ErrorDTO) -> ()) {
+  static func getPlace () {
         let date = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYYMMDD"
@@ -25,6 +23,26 @@ class foursquareApi {
         
         let jsonUrl = "https://api.foursquare.com/v2/venues/explore?near=cnx&client_id=\(client_id)&client_secret=\(client_secret)&v=\(result)"
         guard let url = URL(string: jsonUrl) else {return}
+        print(url)
+    
+    URLSession.shared.dataTask(with: url) { (data, response, err) in
+        
+        guard let jsonData = data else {return}
+        
+        let responseStr = String(data: jsonData, encoding: .utf8)
+//        print(responseStr)
+        
+        do {
+            let responseData = try JSONDecoder().decode(responseInfo.self, from: jsonData)
+            dump(responseData)
+        } catch {
+            print("err",err)
+        }
+        
+        
+        
+    }.resume()
 
-}
+    }
+    
 }

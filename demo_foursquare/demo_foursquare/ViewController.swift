@@ -7,19 +7,16 @@
 //
 
 import UIKit
+struct decription: Decodable {
+    var name: String
+    var description: String
+    var courses: [Course]
+}
 struct Course: Decodable {
     var id : Int
     var name : String
     var link : String
     var imageUrl : String
-    
-//    init(json: [String: Any]) {
-//        id = json["id"] as? Int ?? -1
-//        name = json["name"] as? String ?? ""
-//        link = json["link"] as? String ?? ""
-//        imageUrl = json["imageUrl"] as? String ?? ""
-//
-//    }
 
 }
 
@@ -30,39 +27,32 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getPlace()
+        //JSONDecoder
+        foursquareApi.getPlace()
+       
+        
         tableView.delegate = self
         tableView.dataSource = self
     }
     
     
-    func currentDate() -> String{
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYYMMDD"
-        let result = formatter.string(from: date)
-        return result
-    }
-    func getPlace() {
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYYMMDD"
-        let result = formatter.string(from: date)
-        let client_id = "DSSIAPPQ4LSR40XNXZXJQNHGU0NSNFC5YEJYKIHJTSY0QX2E"
-        let client_secret = "PL3ICK2DMR4OXDQ1T5ODZ4R255SA00B3TDUQRJUK4ICZL5CX"
+    func jsonData() {
+        let jsonUrl = "https://api.letsbuildthatapp.com/jsondecodable/website_description"
+               guard let url = URL(string: jsonUrl) else {return}
                
-        let jsonUrl = "https://api.foursquare.com/v2/venues/explore?near=cnx&client_id=\(client_id)&client_secret=\(client_secret)&v=\(result)"
-        guard let url = URL(string: jsonUrl) else {return}
-        
-        URLSession.shared.dataTask(with: url) { (data, response, err) in
-            guard let data = data else {return}
-            do {
-                let result = try JSONDecoder().decode(responseInfo.self, from: data)
-                print(result.response)
-            } catch {
-              print("show sth",err)
-            }
-        }.resume()
+               URLSession.shared.dataTask(with: url) { (data, response, err) in
+                   guard let data1 = data else {return}
+                   let dataString = String(data: data1, encoding: .utf8)
+                   print(dataString)
+                   
+                   do {
+                       let webDescription = try JSONDecoder().decode(decription.self, from: data1)
+                       print(webDescription.name)
+                   } catch {
+                       print("error")
+                       
+                   }
+               }.resume()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -82,3 +72,33 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
 
 }
 
+
+
+//func currentDate() -> String{
+//      let date = Date()
+//      let formatter = DateFormatter()
+//      formatter.dateFormat = "YYYYMMDD"
+//      let result = formatter.string(from: date)
+//      return result
+//  }
+//  func getPlace() {
+//      let date = Date()
+//      let formatter = DateFormatter()
+//      formatter.dateFormat = "YYYYMMDD"
+//      let result = formatter.string(from: date)
+//      let client_id = "DSSIAPPQ4LSR40XNXZXJQNHGU0NSNFC5YEJYKIHJTSY0QX2E"
+//      let client_secret = "PL3ICK2DMR4OXDQ1T5ODZ4R255SA00B3TDUQRJUK4ICZL5CX"
+//
+//      let jsonUrl = "https://api.foursquare.com/v2/venues/explore?near=cnx&client_id=\(client_id)&client_secret=\(client_secret)&v=\(result)"
+//      guard let url = URL(string: jsonUrl) else {return}
+//
+//      URLSession.shared.dataTask(with: url) { (data, response, err) in
+//          guard let data = data else {return}
+//          do {
+//              let result = try JSONDecoder().decode(responseInfo.self, from: data)
+//              print(result.response)
+//          } catch {
+//            print("show sth",err)
+//          }
+//      }.resume()
+//  }

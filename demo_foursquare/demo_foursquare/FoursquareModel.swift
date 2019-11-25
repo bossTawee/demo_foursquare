@@ -9,20 +9,31 @@
 import Foundation
 
 struct responseInfo: Decodable {
-    var response: groupInfo
+    var response: responseData
+    
 }
-struct groupInfo: Decodable {
-    var group: [itemInfo]
+struct responseData: Decodable {
+    var headerFullLocation: String
+    var groups: [group]
 }
-struct itemInfo: Decodable {
-    var item: [venueInfo]
-}
-struct venueInfo: Decodable {
+
+struct group: Decodable {
+    var type: String
     var name: String
-    var location: locationInfo
+    var items: [itemData]
+    
 }
-struct locationInfo: Decodable {
-    var formattedAddress = [String]()
+struct itemData: Decodable {
+    var venue: venueData
+}
+struct venueData: Decodable {
+    var id: String
+    var name: String
+    var location: locationData
+}
+struct locationData: Decodable {
+    var formattedAddress: [String]
+   
 }
 
 
