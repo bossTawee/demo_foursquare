@@ -9,10 +9,10 @@
 import Foundation
 
 struct responseInfo: Decodable {
-    var response: responseData
+    var response: responsePlace
     
 }
-struct responseData: Decodable {
+struct responsePlace: Decodable {
     var headerFullLocation: String
     var groups: [group]
 }
@@ -30,10 +30,19 @@ struct venueData: Decodable {
     var id: String
     var name: String
     var location: locationData
+    var categories: [categoryData]
 }
 struct locationData: Decodable {
     var formattedAddress: [String]
    
 }
+struct categoryData: Decodable {
+    var icon: iconData
+}
+struct iconData: Decodable {
+    var prefix: String
+    var suffix: String
+}
+
 
 
