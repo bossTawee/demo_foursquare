@@ -17,10 +17,10 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         super.viewDidLoad()
 
         loadingData()
-        
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
     
     
     func loadingData() {
@@ -50,9 +50,7 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    
         return self.dataPlace.count
-       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
